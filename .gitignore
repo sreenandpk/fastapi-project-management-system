@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite (if used)
+*.db
+
+# Pytest
+.pytest_cache/
+
+# Migrations (optional if Alembic)
+alembic/versions/*.pyc
+
+# Node (if frontend later)
+node_modules/
+
+# Build files
+dist/
+build/
