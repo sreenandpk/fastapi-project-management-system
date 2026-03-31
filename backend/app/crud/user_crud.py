@@ -19,3 +19,6 @@ def create_user(db: Session, name: str, email: str, password: str, role: UserRol
     db.commit()
     db.refresh(user)
     return user
+
+def get_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(User).offset(skip).limit(limit).all()

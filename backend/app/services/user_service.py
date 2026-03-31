@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from app.crud.user_crud import create_user, get_user_by_email
+from app.crud.user_crud import create_user, get_user_by_email, get_users
 from app.models.user_model import UserRole
 def create_user_service(
     db: Session,
@@ -42,3 +42,11 @@ def create_user_service(
         role=role
     )
     return user
+
+def get_users_service(db: Session, current_user, skip: int = 0, limit: int = 100):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can view users directory"
+        )
+    return get_users(db, skip=skip, limit=limit)

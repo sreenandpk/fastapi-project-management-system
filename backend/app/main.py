@@ -2,9 +2,7 @@ from fastapi import FastAPI
 from app.db.session import engine
 from app.db.base import Base
 from app.api.v1.router import router as api_router
-from app.models.user_model import User
-from app.models.project_model import Project
-from app.models.task_model import Task
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="Project Management API")
 Base.metadata.create_all(bind=engine)
 app.include_router(api_router, prefix="/api/v1")
@@ -15,3 +13,10 @@ def test_db():
         return {"message": "DB Connected "}
     except Exception as e: 
         return {"error": str(e)}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # for development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
