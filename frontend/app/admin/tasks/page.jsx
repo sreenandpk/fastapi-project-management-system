@@ -15,7 +15,7 @@ export default function AdminTasks() {
     const [selectedUser, setSelectedUser] = useState("all");
     
     const [isCreateOpen, setIsCreateOpen] = useState(false);
-    const [form, setForm] = useState({ title: "", description: "", project_id: "" });
+    const [form, setForm] = useState({ title: "", description: "", project_id: "", due_date: "" });
     const [creating, setCreating] = useState(false);
 
     const [isAssignOpen, setIsAssignOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function AdminTasks() {
             setCreating(true);
             await createTask(form);
             setIsCreateOpen(false);
-            setForm({ title: "", description: "", project_id: "" });
+            setForm({ title: "", description: "", project_id: "", due_date: "" });
             showNotification("Task created successfully", "success");
             fetchTasksTrigger();
         } catch (error) {
@@ -192,6 +192,12 @@ export default function AdminTasks() {
                                                 <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter">Assigned To</span>
                                                 <span className="text-xs font-semibold text-zinc-300">{assignedUser || "Unassigned"}</span>
                                             </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter">Due Date</span>
+                                                <span className="text-[11px] font-bold text-cyan-400">
+                                                    {t.due_date ? new Date(t.due_date).toLocaleString() : "No deadline"}
+                                                </span>
+                                            </div>
                                         </div>
 
                                         <button 
@@ -241,13 +247,22 @@ export default function AdminTasks() {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label className="form-label text-[10px]">Description</label>
                                 <textarea 
-                                    className="form-input bg-black/40 border-white/5 focus:border-cyan-500/50 min-h-[100px]" 
+                                    className="form-input bg-black/40 border-white/5 focus:border-cyan-500/50 min-h-[80px]" 
                                     placeholder="Describe the objective..."
                                     value={form.description}
                                     onChange={(e) => setForm({...form, description: e.target.value})}
                                 ></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label text-[10px]">Due Date</label>
+                                <input 
+                                    type="datetime-local" 
+                                    className="form-input bg-black/40 border-white/5 focus:border-cyan-500/50" 
+                                    required 
+                                    value={form.due_date}
+                                    onChange={(e) => setForm({...form, due_date: e.target.value})}
+                                />
                             </div>
                             <div className="flex justify-end gap-3 mt-10">
                                 <button type="button" className="btn btn-outline border-white/5 text-xs" onClick={() => setIsCreateOpen(false)}>Cancel</button>

@@ -54,6 +54,17 @@ export default function DeveloperTasks() {
             showNotification("Failed to update status", "error");
         }
     };
+    const getDeadlineStatus = (dueDate) => {
+        if (!dueDate) return { label: "No Deadline", className: "text-zinc-500", cardClass: "" };
+        const now = new Date();
+        const deadline = new Date(dueDate);
+        const diff = deadline - now;
+        const hours = diff / (1000 * 60 * 60);
+
+        if (diff < 0) return { label: "OVERDUE", className: "text-red-500 font-black animate-pulse", cardClass: "animate-pulse-red border-red-500/50" };
+        if (hours < 24) return { label: "DUE SOON", className: "text-amber-500 font-bold", cardClass: "animate-amber-glow border-amber-500/30" };
+        return { label: `Due: ${deadline.toLocaleDateString()}`, className: "text-indigo-300", cardClass: "" };
+    };
 
     return (
         <div>
@@ -93,14 +104,21 @@ export default function DeveloperTasks() {
                     ) : (
                         tasks.map(t => {
                             const proj = projects.find(p => p.id === t.project_id);
+                            const deadline = getDeadlineStatus(t.due_date);
+                            
                             return (
-                                <div key={t.id} className="card group relative h-[250px] overflow-hidden rounded-2xl border-none shadow-2xl transition-all duration-500 hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]">
-                                    <div className="project-light-effect project-light-indigo"></div>
+                                <div key={t.id} className={`card group relative min-h-[280px] overflow-hidden rounded-2xl border-none shadow-2xl transition-all duration-500 hover:shadow-[0_0_40px_rgba(99,102,241,0.2)] ${deadline.cardClass}`}>
+                                    <div className={`project-light-effect project-light-indigo ${deadline.label === 'OVERDUE' ? 'opacity-40' : ''}`}></div>
                                     <div className="absolute inset-0 bg-[#030712]/50 backdrop-blur-[1px] z-[2]"></div>
                                     
                                     <div className="relative z-10 flex flex-col h-full p-6">
                                         <div className="flex justify-between items-start mb-4">
-                                            <span className="text-[10px] font-bold tracking-widest text-indigo-400/80 bg-indigo-400/10 px-2 py-1 rounded">#{t.id}</span>
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[10px] font-bold tracking-widest text-indigo-400/80 bg-indigo-400/10 px-2 py-1 rounded w-fit">#{t.id}</span>
+                                                <span className={`text-[10px] uppercase tracking-tighter font-black ${deadline.className}`}>
+                                                    {deadline.label}
+                                                </span>
+                                            </div>
                                             <span className={`badge text-[10px] ${
                                                 t.status === 'done' ? 'badge-success' : 
                                                 t.status === 'in_progress' ? 'badge-primary' : 'badge-warning'
