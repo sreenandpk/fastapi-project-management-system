@@ -105,7 +105,7 @@ cd fastapi-project-management-system
 
 ---
 
-### 2️⃣ Setup environment
+### 2️⃣ Setup backend environment
 
 ```bash
 cp backend/.env.docker.example backend/.env.docker
@@ -118,8 +118,15 @@ copy backend\.env.docker.example backend\.env.docker
 ```
 
 ---
-
-### 3️⃣ Run the application
+### 3️⃣ Setup frontend environment
+```bash
+mv frontend/.env.local.example frontend/.env.local
+```
+👉 Windows:
+```powershell
+Rename-Item frontend\.env.local.example frontend\.env.local
+```
+### 4️⃣ Run the application
 
 ```bash
 docker-compose up --build
