@@ -13,7 +13,7 @@ export default function AdminLayout({ children }) {
     useEffect(() => {
         const token = localStorage.getItem("access_token");
         if (!token) {
-            router.push("/login");
+            router.push("/");
             return;
         }
         
@@ -37,7 +37,7 @@ export default function AdminLayout({ children }) {
     return (
         <div className="app-container">
             <aside className="sidebar">
-                <div className="sidebar-header">Admin</div>
+                <div className="sidebar-header">Project Management</div>
                 <nav className="sidebar-nav">
                     {navItems.map((item) => (
                         <Link 

@@ -13,7 +13,7 @@ export default function DeveloperLayout({ children }) {
     useEffect(() => {
         const token = localStorage.getItem("access_token");
         if (!token) {
-            router.push("/login");
+            router.push("/");
             return;
         }
 
@@ -36,7 +36,7 @@ export default function DeveloperLayout({ children }) {
     return (
         <div className="app-container">
             <aside className="sidebar">
-                <div className="sidebar-header">Developer</div>
+                <div className="sidebar-header">Project Management</div>
                 <nav className="sidebar-nav">
                     {navItems.map((item) => (
                         <Link 
@@ -56,7 +56,7 @@ export default function DeveloperLayout({ children }) {
                             className="w-10 h-10 rounded-full object-cover" 
                         />
                         <div className="text-sm">
-                            <strong className="text-white text-xs truncate block max-w-[120px]">My App</strong>
+                            <strong className="text-white text-xs truncate block max-w-[120px]">Project Management</strong>
                         </div>
                     </div>
                     <button onClick={logout} className="btn btn-outline w-full justify-center">

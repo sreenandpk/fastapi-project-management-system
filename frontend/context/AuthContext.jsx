@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (err) {
             console.error(err);
-            router.push("/login");
+            router.push("/");
         }
     };
 
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
         localStorage.clear();
         setUser(null);
-        router.push("/login");
+        router.push("/");
     };
 
     return (

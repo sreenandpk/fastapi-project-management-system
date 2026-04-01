@@ -11,7 +11,27 @@ export default function AdminUsers() {
     
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [form, setForm] = useState({ name: "", email: "", password: "", role: "DEVELOPER" });
+    const [errors, setErrors] = useState({});
     const [creating, setCreating] = useState(false);
+
+    const validateField = (name, value) => {
+        let error = "";
+        if (name === "name") {
+            if (value.trim().length < 3) error = "NAME MUST BE AT LEAST 3 CHARACTERS";
+        } else if (name === "email") {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) error = "ENTER A VALID CORPORATE EMAIL";
+        } else if (name === "password") {
+            if (value.length < 8) error = "PASSWORD SECURITY: MIN 8 CHARS REQUIRED";
+        }
+        return error;
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    };
 
     const fetchUsers = async () => {
         try {
@@ -31,16 +51,30 @@ export default function AdminUsers() {
 
     const handleCreateUser = async (e) => {
         e.preventDefault();
+
+        const newErrors = {
+            name: validateField("name", form.name),
+            email: validateField("email", form.email),
+            password: validateField("password", form.password),
+        };
+
+        if (newErrors.name || newErrors.email || newErrors.password) {
+            setErrors(newErrors);
+            showNotification("Validation failed. Please check the requirements.", "error");
+            return;
+        }
+
         try {
             setCreating(true);
             await createUser(form);
             setIsCreateOpen(false);
             setForm({ name: "", email: "", password: "", role: "DEVELOPER" });
-            showNotification("User created successfully", "success");
+            setErrors({});
+            showNotification("Identity created and authorized successfully", "success");
             fetchUsers();
         } catch (error) {
             console.error(error);
-            showNotification("Failed to create user. Email may already exist.", "error");
+            showNotification("Database conflict: Email might already be registered.", "error");
         } finally {
             setCreating(false);
         }
@@ -121,23 +155,27 @@ export default function AdminUsers() {
                                     <label className="form-label text-[10px]">Full Name</label>
                                     <input 
                                         type="text" 
-                                        className="form-input bg-black/40 border-white/5 focus:border-purple-500/50" 
+                                        name="name"
+                                        className={`form-input bg-black/40 border-white/5 focus:border-purple-500/50 ${errors.name ? 'border-red-500/50' : ''}`} 
                                         required 
                                         placeholder="e.g. John Doe"
                                         value={form.name}
-                                        onChange={(e) => setForm({...form, name: e.target.value})}
+                                        onChange={handleChange}
                                     />
+                                    {errors.name && <p className="text-[8px] text-red-400 mt-1 font-bold animate-pulse">{errors.name}</p>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label text-[10px]">Email</label>
                                     <input 
                                         type="email" 
-                                        className="form-input bg-black/40 border-white/5 focus:border-purple-500/50" 
+                                        name="email"
+                                        className={`form-input bg-black/40 border-white/5 focus:border-purple-500/50 ${errors.email ? 'border-red-500/50' : ''}`} 
                                         required 
                                         placeholder="user@example.com"
                                         value={form.email}
-                                        onChange={(e) => setForm({...form, email: e.target.value})}
+                                        onChange={handleChange}
                                     />
+                                    {errors.email && <p className="text-[8px] text-red-400 mt-1 font-bold animate-pulse">{errors.email}</p>}
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -145,12 +183,14 @@ export default function AdminUsers() {
                                     <label className="form-label text-[10px]">Password</label>
                                     <input 
                                         type="password" 
-                                        className="form-input bg-black/40 border-white/5 focus:border-purple-500/50" 
+                                        name="password"
+                                        className={`form-input bg-black/40 border-white/5 focus:border-purple-500/50 ${errors.password ? 'border-red-500/50' : ''}`} 
                                         required 
                                         placeholder="••••••••"
                                         value={form.password}
-                                        onChange={(e) => setForm({...form, password: e.target.value})}
+                                        onChange={handleChange}
                                     />
+                                    {errors.password && <p className="text-[8px] text-red-400 mt-1 font-bold animate-pulse">{errors.password}</p>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label text-[10px]">Role</label>

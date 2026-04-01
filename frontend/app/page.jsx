@@ -48,7 +48,7 @@ export default function LoginPage() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
-                        <h1 style={styles.title}>IDENTITY</h1>
+                        <h1 style={styles.title}>Project Management Login</h1>
                         <p style={styles.subtitle}>SECURE ACCESS REQUIRED</p>
                     </div>
 
@@ -88,14 +88,12 @@ export default function LoginPage() {
                                     ) : (
                                         <svg style={{ width: '16px', height: '16px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268-2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
                                     )}
                                 </button>
                             </div>
                         </div>
-
-
 
                         <button
                             type="submit"
@@ -106,8 +104,35 @@ export default function LoginPage() {
                         </button>
                     </form>
 
+                    <div style={styles.divider}>
+                        <div style={styles.dividerLine}></div>
+                        <span style={styles.dividerText}>API ACCESS</span>
+                        <div style={styles.dividerLine}></div>
+                    </div>
 
-
+                    <a
+                        href="http://localhost:8000/docs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.docsBtn}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'rgba(34, 211, 238, 0.08)';
+                            e.currentTarget.style.borderColor = '#22d3ee';
+                            e.currentTarget.style.color = '#22d3ee';
+                            e.currentTarget.style.boxShadow = '0 0 15px rgba(34, 211, 238, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                            e.currentTarget.style.color = '#fff';
+                            e.currentTarget.style.boxShadow = 'none';
+                        }}
+                    >
+                        <svg style={{ width: '14px', height: '14px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        API DOCUMENTATION
+                    </a>
                 </div>
             </div>
         </div>
@@ -310,5 +335,24 @@ const styles = {
         fontSize: '8px',
         fontWeight: '600',
         color: '#1e293b',
+    },
+    docsBtn: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        padding: '14px',
+        backgroundColor: 'transparent',
+        color: '#fff',
+        borderRadius: '0.75rem',
+        fontSize: '9px',
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        letterSpacing: '0.2em',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        textDecoration: 'none',
+        gap: '8px',
     },
 };

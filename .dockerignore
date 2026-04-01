@@ -1,0 +1,24 @@
+# =========================
+# 🐍 BACKEND
+# =========================
+backend/venv/
+backend/.env*
+backend/__pycache__/
+
+# =========================
+# ⚛️ FRONTEND
+# =========================
+frontend/node_modules/
+frontend/.next/
+frontend/.env*
+
+# =========================
+# 🧾 GENERAL
+# =========================
+.git
+.gitignore
+*.log
+*.db
+.vscode
+.DS_Store
+Thumbs.db

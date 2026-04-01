@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Project Management System",
+    title: "Project Management Login",
   description: "Enterprise class project management",
 };
 
