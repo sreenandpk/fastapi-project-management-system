@@ -176,6 +176,19 @@ ADMIN_NAME=Your Name
 * token, user_id, expires_at
 
 ---
+## 🧩 ER Diagram
+
+The following diagram represents the database structure and relationships:
+
+![ER Diagram](docs/er_diagram.png)
+
+### Key Relationships
+
+* One **User (Admin)** → can own multiple **Projects**
+* One **Project** → contains multiple **Tasks**
+* One **Task** → assigned to a **Developer**
+* One **Task** → created by an **Admin**
+* One **User** → can have multiple **Refresh Tokens**
 
 ## 🔗 API Endpoints
 
