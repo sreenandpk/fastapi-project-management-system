@@ -64,7 +64,7 @@ def get_project_service(db: Session, project_id: int, current_user):
 #DELETE PROJECT → ADMIN ONLY
 def delete_project_service(db: Session, project_id: int, current_user):
     project = get_project_or_404(db, project_id)
-    if current_user.role != UserRole.ADMIN:   # ✅ FIX
+    if current_user.role != UserRole.ADMIN:   
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only admin can delete projects"
