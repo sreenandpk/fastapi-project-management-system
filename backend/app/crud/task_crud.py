@@ -49,7 +49,7 @@ def assign_task(db: Session, task: Task, user_id: int):
     db.commit()
     db.refresh(task)
     return task
-#DELETE TASK (OPTIONAL)
+#DELETE TASK 
 def delete_task(db: Session, task: Task):
     db.delete(task)
     db.commit()
