@@ -1,25 +1,25 @@
 # 🚀 FastAPI Project Management System
 
-A full-stack **Project Management System** built with **FastAPI, PostgreSQL, and Next.js**, featuring authentication, role-based access control (RBAC), task assignment with due dates, and a fully dockerized setup for seamless development and deployment.
+A full-stack **Project Management System** built with **FastAPI, PostgreSQL, and Next.js**, featuring secure authentication, role-based access control (RBAC), task assignment with due dates, and a **clean architecture backend**. The entire system is fully containerized using Docker for seamless setup and deployment.
 
 ---
 
 ## 📌 Overview
 
-This system enables organizations to manage projects and tasks efficiently with structured roles:
+This system is designed to help teams manage projects and tasks efficiently with clear role separation:
 
-* 👑 **Admin**
+### 👑 Admin
 
-  * Manage users
-  * Create projects
-  * Assign tasks with due dates
-  * Monitor system via dashboard
+* Manage users
+* Create and manage projects
+* Assign tasks with due dates
+* Monitor overall system performance
 
-* 👨‍💻 **Developer**
+### 👨‍💻 Developer
 
-  * View assigned projects
-  * Work on assigned tasks
-  * Update task status
+* View assigned projects
+* Work on assigned tasks
+* Update task status
 
 ---
 
@@ -30,7 +30,7 @@ This system enables organizations to manage projects and tasks efficiently with 
 * FastAPI
 * PostgreSQL
 * SQLAlchemy
-* JWT Authentication
+* JWT Authentication (Access + Refresh Tokens)
 
 ### Frontend
 
@@ -44,20 +44,53 @@ This system enables organizations to manage projects and tasks efficiently with 
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-* 🔐 JWT Authentication (Access + Refresh Tokens)
+* 🔐 Secure authentication with JWT (access + refresh tokens)
 * 👑 Role-Based Access Control (Admin / Developer)
-* 📊 Dashboard with real-time statistics
-* 📁 Project Management (CRUD)
-* ✅ Task Management (Create, Assign, Update Status)
-* 📅 Task Due Date with validation (no past dates)
-* 🌍 IST Timezone support for tasks
-* 🔍 Advanced filtering & pagination
+* 📊 Dashboard with real-time stats
+* 📁 Project management system
+* ✅ Task management (create, assign, update)
+* 📅 Task due date with validation (no past dates)
+* 🌍 IST timezone support
+* 🔍 Advanced filtering and pagination
 * 🚫 Duplicate task prevention per project
-* 🌐 RESTful API with Swagger Docs
-* 🐳 Fully Dockerized (one-command setup)
-* ⚡ Auto database setup + admin creation
+* 📘 Interactive API docs (Swagger)
+* 🐳 Fully Dockerized (single command setup)
+* ⚡ Automatic database setup + admin creation
+
+---
+
+## 🧠 Architecture (Clean Architecture)
+
+The backend follows a **Clean Architecture + Layered Design** ensuring scalability and maintainability.
+
+### 🔹 Layers
+
+```plaintext
+API Layer        → FastAPI routes
+Service Layer    → Business logic
+CRUD Layer       → Database operations
+Models Layer     → SQLAlchemy models
+Schema Layer     → Pydantic schemas
+Core Layer       → Security, config, utilities
+```
+
+---
+
+## 📂 Project Structure
+
+```plaintext
+backend/app/
+│
+├── api/           # Routes
+├── services/      # Business logic
+├── crud/          # DB operations
+├── models/        # Database models
+├── schemas/       # Request/response schemas
+├── core/          # Security & configs
+├── db/            # Database setup
+```
 
 ---
 
@@ -65,7 +98,7 @@ This system enables organizations to manage projects and tasks efficiently with 
 
 ### 1️⃣ Clone the repository
 
-```bash id="q8n2c4"
+```bash
 git clone https://github.com/sreenandpk/fastapi-project-management-system.git
 cd fastapi-project-management-system
 ```
@@ -74,13 +107,13 @@ cd fastapi-project-management-system
 
 ### 2️⃣ Setup environment
 
-```bash id="mchz8p"
+```bash
 cp backend/.env.docker.example backend/.env.docker
 ```
 
 👉 Windows:
 
-```powershell id="j5r6tr"
+```powershell
 copy backend\.env.docker.example backend\.env.docker
 ```
 
@@ -88,7 +121,7 @@ copy backend\.env.docker.example backend\.env.docker
 
 ### 3️⃣ Run the application
 
-```bash id="j6q0g1"
+```bash
 docker-compose up --build
 ```
 
@@ -97,28 +130,26 @@ docker-compose up --build
 ## 🌐 Access the Application
 
 * Frontend → http://localhost:3000
-* Backend API → http://localhost:8000
+* Backend → http://localhost:8000
 * Swagger Docs → http://localhost:8000/docs
 
 ---
 
 ## 🔐 Customize Admin Credentials
 
-Before running the project, you can customize admin credentials:
+Before running the project, update admin credentials:
 
-Edit:
-
-```env id="2rlp2v"
+```env
 backend/.env.docker
 ```
 
-```env id="pq2c8s"
+```env
 ADMIN_EMAIL=your_email@example.com
 ADMIN_PASSWORD=your_secure_password
 ADMIN_NAME=Your Name
 ```
 
-👉 Admin user is automatically created on startup
+👉 Admin is automatically created on startup.
 
 ---
 
@@ -127,66 +158,22 @@ ADMIN_NAME=Your Name
 ### 👤 User
 
 * id, name, email, password_hash, role
-* Relationships:
-
-  * owns projects
-  * assigned tasks
-  * created tasks
-
----
+* Relationships: projects, assigned tasks, created tasks
 
 ### 📁 Project
 
 * id, name, description, owner_id
-* Relationships:
-
-  * belongs to admin
-  * contains tasks
-
----
+* Contains multiple tasks
 
 ### ✅ Task
 
 * id, title, description, status
 * project_id, assigned_to, created_by
-* due_date (with timezone support)
-* created_at, updated_at
-
----
+* due_date (timezone aware)
 
 ### 🔐 RefreshToken
 
 * token, user_id, expires_at
-
----
-
-### 🔄 Relationships
-
-```plaintext id="js08a0"
-User (Admin)
-   └── Projects
-         └── Tasks
-              ├── assigned_to → Developer
-              └── created_by → Admin
-```
-
----
-
-## ⚙️ Service Layer Architecture
-
-The backend follows a **layered architecture**:
-
-* **CRUD Layer** → Database operations
-* **Service Layer** → Business logic & validation
-* **API Layer** → Routes
-
-### Key Logic
-
-* Only Admin can create users, projects, and tasks
-* Developers can update only their assigned tasks
-* Task due date validation (no past deadlines)
-* IST timezone handling for consistency
-* Duplicate task prevention per project
 
 ---
 
@@ -226,15 +213,13 @@ The backend follows a **layered architecture**:
 
 ## 📬 Postman Collection
 
-A ready-to-use Postman collection is included for testing all API endpoints.
+A ready-to-use Postman collection is included:
 
-📁 Location:
-
-```plaintext id="zj2p1t"
+```plaintext
 docs/postmanCollection.json
 ```
 
-### Usage:
+### Usage
 
 1. Open Postman
 2. Click Import
@@ -245,27 +230,52 @@ docs/postmanCollection.json
 
 ## 📸 Screenshots
 
-*Add your screenshots here*
+### 🔐 Login Page
 
-```md id="bn3r6d"
 ![Login](screenshots/login.png)
-![Dashboard](screenshots/dashboard.png)
+
+---
+
+### 👑 Admin Dashboard
+
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
+### 👨‍💻 Developer Dashboard
+
+![Developer Dashboard](screenshots/developer_dashboard.png)
+
+---
+
+### 📋 Task Management
+
+![Assign Task](screenshots/assign_task_to_developer.png)
+![Task Progress](screenshots/task_progress.png)
+
+---
+
+### 👥 User Management
+
+![Users](screenshots/users.png)
+
+---
+
+### 📘 API Docs (Swagger)
+
 ![Swagger](screenshots/swagger.png)
-```
 
 ---
 
 ## ⚠️ Notes
 
-* If ports are already in use, update them in `docker-compose.yml`
-* Do NOT commit `.env` files (already ignored for security)
+* Update ports in `docker-compose.yml` if already in use
+* `.env` files are excluded from version control for security
 
 ---
 
 ## 🏆 Future Improvements
 
-* Deployment (AWS / Render / Railway)
-* CI/CD pipeline
+* Cloud deployment (AWS / Render / Railway)
+* CI/CD pipeline integration
 * Email notifications
 * Advanced analytics dashboard
 
@@ -274,6 +284,6 @@ docs/postmanCollection.json
 ## 🙌 Author
 
 **Sreenand PK**
-Full Stack Developer (FastAPI + Next.js)
+Full Stack Developer
 
 GitHub: https://github.com/sreenandpk
