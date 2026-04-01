@@ -33,6 +33,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # =========================
-# 🚀 RUN WITH GUNICORN (PRODUCTION)
+# 🚀 RUN WITH GUNICORN (FIXED)
 # =========================
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8000", "--workers", "1"]
